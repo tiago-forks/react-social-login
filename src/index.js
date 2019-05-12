@@ -140,15 +140,13 @@ const SocialLogin = (WrappedComponent) => class SocialLogin extends Component {
    * Triggers login process.
    */
   login () {
-    if (this.state.isLoaded && !this.state.isConnected && !this.state.isFetching) {
+    if (this.state.isLoaded && !this.state.isFetching) {
       this.setState((prevState) => ({
         ...prevState,
         isFetching: true
       }), () => {
         this.sdk.login().then(this.onLoginSuccess, this.onLoginFailure)
       })
-    } else if (this.state.isLoaded && this.state.isConnected) {
-      this.props.onLoginFailure('User already connected')
     } else if (this.state.isLoaded && this.state.isFetching) {
       this.props.onLoginFailure('Fetching user')
     } else if (!this.state.isLoaded) {
@@ -218,10 +216,8 @@ const SocialLogin = (WrappedComponent) => class SocialLogin extends Component {
    * Triggers logout process.
    */
   logout () {
-    if (this.state.isLoaded && this.state.isConnected) {
+    if (this.state.isLoaded) {
       this.sdk.logout().then(this.onLogoutSuccess, this.onLogoutFailure)
-    } else if (this.state.isLoaded && !this.state.isConnected) {
-      this.props.onLoginFailure('User not connected')
     } else {
       this.props.onLoginFailure('SDK not loaded')
     }

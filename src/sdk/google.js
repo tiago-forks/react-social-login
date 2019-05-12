@@ -72,7 +72,7 @@ const checkLogin = () => new Promise((resolve, reject) => {
 const login = () => new Promise((resolve, reject) => {
   const GoogleAuth = window.gapi.auth2.getAuthInstance()
 
-  GoogleAuth.signIn().then(
+  GoogleAuth.signIn({ prompt: 'select_account' }).then(
     () => checkLogin().then(resolve, reject),
     (err) => reject(rslError({
       provider: 'google',
